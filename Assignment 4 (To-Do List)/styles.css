@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image:url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/271a2e8e-7ce3-4d94-8ea0-cc6afa6facde/dfoxd1c-5af4f45a-a4b0-429c-b2ec-4dd8fe3c75a1.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzI3MWEyZThlLTdjZTMtNGQ5NC04ZWEwLWNjNmFmYTZmYWNkZVwvZGZveGQxYy01YWY0ZjQ1YS1hNGIwLTQyOWMtYjJlYy00ZGQ4ZmUzYzc1YTEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.3k-XviAluk3tuWQDO_imJQw0KNu1KIr3VWnDMYVVmG4");
+    background-position: center;
+    background-size: cover;
+}
+
+.todo-container {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.2);  
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); 
+    backdrop-filter: blur(5px);
+    border: 0.5px solid white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 20);
+    color:white;
+}
+
+#task-input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#add-task-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+}
+
+#add-task-button:hover {
+    background-color: #218838;
+}
+
+#task-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#task-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#task-list li button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#task-list li button:hover {
+    background-color: #c82333;
+}
