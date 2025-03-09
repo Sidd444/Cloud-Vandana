@@ -16,8 +16,8 @@ This repository contains my solutions to the coding assignments for the Associat
 A responsive profile card designed using HTML and CSS. It includes a profile picture, name, designation, a short bio, and social media icons. The card is centered on the page and adapts well to different screen sizes. CSS animations are used for a hover effect on the card.
 
 ### Files
-- `profile-card.html`
-- `profile-card.css`
+- `index.html`
+- `styles.css`
 
 ### Features
 - Responsive design
@@ -36,7 +36,7 @@ A responsive profile card designed using HTML and CSS. It includes a profile pic
 A Java program that takes two strings as input and checks if they are anagrams (containing the same characters in a different order).
 
 ### Files
-- `AnagramCheck.java`
+- `Anagram.java`
 
 ## 3. Employee Management System
 
@@ -52,8 +52,9 @@ A simple Java class `Employee` with attributes `id`, `name`, and `salary`. A met
 A simple to-do list using JavaScript and the DOM. It allows users to add new tasks, display tasks in a list, and provides a button to remove each task.
 
 ### Files
-- `todo-list.html`
-- `todo-list.js`
+- `index.html`
+- `todo.js`
+- `styles.css`
 
 ### Features
 - Add new tasks
@@ -69,8 +70,9 @@ A simple to-do list using JavaScript and the DOM. It allows users to add new tas
 An image slider using JavaScript that displays one image at a time. It has Next and Previous buttons to navigate through images and uses an array of image URLs.
 
 ### Files
-- `image-slider.html`
-- `image-slider.js`
+- `index.html`
+- `slider.js`
+- `styles.css`
 
 ### Features
 - Displays one image at a time
@@ -84,7 +86,3 @@ An image slider using JavaScript that displays one image at a time. It has Next 
 
 These assignments demonstrate my skills in HTML, CSS, Java, and JavaScript. Each assignment addresses a different aspect of web development and programming, showcasing my ability to create responsive designs, manipulate strings, implement object-oriented programming concepts, and work with the DOM.
 
-Feel free to explore the code and let me know if you have any questions or feedback.
-
-## Author
-Siddhartha
