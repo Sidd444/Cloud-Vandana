@@ -27,8 +27,6 @@ A responsive profile card designed using HTML and CSS. It includes a profile pic
 - Social media icons
 - CSS animations for hover effect
 
-### Preview
-![Profile Card Preview](profile-card-preview.png)
 
 ## 2. Anagram Check
 
@@ -61,8 +59,6 @@ A simple to-do list using JavaScript and the DOM. It allows users to add new tas
 - Display tasks in a list
 - Remove tasks
 
-### Preview
-![To-Do List Preview](todo-list-preview.png)
 
 ## 5. Image Slider
 
@@ -79,8 +75,6 @@ An image slider using JavaScript that displays one image at a time. It has Next 
 - Next and Previous buttons for navigation
 - Uses an array of image URLs
 
-### Preview
-![Image Slider Preview](image-slider-preview.png)
 
 ## Conclusion
 
