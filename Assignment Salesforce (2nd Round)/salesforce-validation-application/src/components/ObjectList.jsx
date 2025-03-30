@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Toaster, toast } from "react-hot-toast";
 import { getSalesforceObjects, getValidationRules } from "../services/SalesforceAPI";
 
 const ObjectList = ({ accessToken, onSelectObject }) => {
@@ -7,23 +8,31 @@ const ObjectList = ({ accessToken, onSelectObject }) => {
 
   useEffect(() => {
     if (accessToken) {
-      getSalesforceObjects(accessToken).then((allObjects) => {
-        const filteredObjects = allObjects.filter((obj) =>
-          ["Account", "Contact", "Lead", "Opportunity"].includes(obj.name)
-        );
-        setObjects(filteredObjects);
-      });
+      getSalesforceObjects(accessToken)
+        .then((allObjects) => {
+          const filteredObjects = allObjects.filter((obj) =>
+            ["Account", "Contact", "Lead", "Opportunity"].includes(obj.name)
+          );
+          setObjects(filteredObjects);
+        })
+        .catch(() => toast.error("Failed to fetch Salesforce objects."));
     }
   }, [accessToken]);
 
   const handleObjectClick = async (objectName) => {
-    const rules = await getValidationRules(accessToken, objectName);
-    setValidationRules(rules);
-    onSelectObject(objectName);
+    try {
+      const rules = await getValidationRules(accessToken, objectName);
+      setValidationRules(rules);
+      onSelectObject(objectName);
+      toast.success(`Selected object: ${objectName}`);
+    } catch {
+      toast.error("Failed to fetch validation rules for the selected object.");
+    }
   };
 
   return (
     <div className="mt-5">
+      <Toaster position="top-right" />
       <h2 className="text-xl font-bold">Salesforce Objects</h2>
       <ul className="mt-3">
         {objects.map((obj) => (

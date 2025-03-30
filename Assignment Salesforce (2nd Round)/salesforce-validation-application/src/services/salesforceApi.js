@@ -26,7 +26,7 @@ export const getValidationRules = async (accessToken, objectName) => {
 
 
 
-export const toggleValidationRule = async (accessToken, ruleId, isActive) => {
+export const toggleValidationRule = async (accessToken, ruleId, isActive, validationName) => {
   try {
     const response = await axios.get(
       `/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
@@ -55,7 +55,7 @@ export const toggleValidationRule = async (accessToken, ruleId, isActive) => {
       }
     );
 
-    console.log(`Validation rule with ID ${ruleId} successfully toggled to ${isActive}`);
+    console.log(`Validation rule with Name ${validationName} successfully toggled to ${isActive}`);
   } catch (error) {
     console.log("Error toggling validation rule:", error.message);
   }
