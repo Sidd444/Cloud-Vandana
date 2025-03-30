@@ -6,9 +6,11 @@ const AUTH_URL = `https://login.salesforce.com/services/oauth2/authorize?respons
 
 export const loginUrl = AUTH_URL;
 
+const instanceUrl = localStorage.getItem("instance_url");
+
 export const getSalesforceObjects = async (accessToken) => {
   const response = await axios.get(
-    "https://your-instance.salesforce.com/services/data/v59.0/sobjects/",
+    `/services/data/v59.0/sobjects/`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
   return response.data.sobjects;
@@ -16,16 +18,55 @@ export const getSalesforceObjects = async (accessToken) => {
 
 export const getValidationRules = async (accessToken, objectName) => {
   const response = await axios.get(
-    `https://your-instance.salesforce.com/services/data/v59.0/tooling/query/?q=SELECT+Id,Active,ValidationName+FROM+ValidationRule+WHERE+EntityDefinition.DeveloperName='${objectName}'`,
+    `/services/data/v59.0/tooling/query/?q=SELECT+Id,Active,ValidationName+FROM+ValidationRule+WHERE+EntityDefinition.DeveloperName='${objectName}'`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
   return response.data.records;
 };
 
+
+
 export const toggleValidationRule = async (accessToken, ruleId, isActive) => {
-  await axios.patch(
-    `https://your-instance.salesforce.com/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
-    { Active: !isActive },
+  try {
+    const response = await axios.get(
+      `/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const metadata = response.data.Metadata || {};
+    const updatedMetadata = {
+      ...metadata,
+      active: isActive,
+    };
+
+    await axios.patch(
+      `/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
+      { Metadata: updatedMetadata },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log(`Validation rule with ID ${ruleId} successfully toggled to ${isActive}`);
+  } catch (error) {
+    console.log("Error toggling validation rule:", error.message);
+  }
+};
+
+
+
+export const getUserInfo = async (accessToken) => {
+  const response = await axios.get(
+    `/services/oauth2/userinfo`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
+  return response.data;
 };
