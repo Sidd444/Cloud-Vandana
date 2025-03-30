@@ -1,4 +1,4 @@
-import { loginUrl } from "../services/SalesforceAPI";
+import { loginUrl } from "../services/salesforceApi";
 
 const LoginButton = () => (
   <a href={loginUrl} className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

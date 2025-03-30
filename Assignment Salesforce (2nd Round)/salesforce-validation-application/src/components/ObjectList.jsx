@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import { getSalesforceObjects, getValidationRules } from "../services/SalesforceAPI";
+import { getSalesforceObjects, getValidationRules } from "../services/salesforceApi";
 
 const ObjectList = ({ accessToken, onSelectObject }) => {
   const [objects, setObjects] = useState([]);
