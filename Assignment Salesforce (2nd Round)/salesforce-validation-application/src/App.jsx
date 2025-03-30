@@ -4,7 +4,7 @@ import { Toaster, toast } from "react-hot-toast";
 import LoginButton from "./components/LoginButton";
 import ObjectList from "./components/ObjectList";
 import ValidationRulesList from "./components/ValidationRulesList";
-import { getUserInfo } from "./services/SalesforceAPI";
+import { getUserInfo } from "../services/salesforceApi";
 
 function OAuthCallback() {
   const navigate = useNavigate();

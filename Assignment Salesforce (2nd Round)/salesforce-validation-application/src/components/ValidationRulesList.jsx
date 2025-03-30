@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import { getValidationRules, toggleValidationRule } from "../services/salesforceApi";
+import { getValidationRules, toggleValidationRule } from "./services/salesforceApi";
 
 const ValidationRulesList = ({ accessToken, objectName }) => {
   const [rules, setRules] = useState([]);
