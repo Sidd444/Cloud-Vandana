@@ -67,3 +67,22 @@ export const getUserInfo = async (accessToken) => {
   );
   return response.data;
 };
+
+// Add a function to handle the OAuth callback
+export const handleOAuthCallback = () => {
+  const hash = window.location.hash; // Get the URL fragment
+  if (hash) {
+    const params = new URLSearchParams(hash.substring(1)); // Remove the '#' and parse
+    const accessToken = params.get("access_token");
+    const instanceUrl = params.get("instance_url");
+
+    if (accessToken && instanceUrl) {
+      localStorage.setItem("access_token", accessToken); // Store the token
+      localStorage.setItem("instance_url", instanceUrl); // Store the instance URL
+      window.location.hash = ""; // Clear the fragment
+      console.log("Access token and instance URL stored successfully.");
+    } else {
+      console.error("Access token or instance URL missing in callback.");
+    }
+  }
+};
