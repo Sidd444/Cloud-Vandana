@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL } from "../config/baseUrl";
 
 const CLIENT_ID = "3MVG9rZjd7MXFdLi8jPo63qmsl2BGyzujtREQfPLvVBeDxoXrvj3QZFzPWHTC6Jbr2dLAIJxtuY1cB_h_k5Xo";
-const REDIRECT_URI = `${BASE_URL}/#/oauth/callback`;
+const REDIRECT_URI = `${BASE_URL}/oauth/callback`;
 const AUTH_URL = `https://login.salesforce.com/services/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
 
 export const loginUrl = AUTH_URL;
