@@ -12,16 +12,4 @@ export default defineConfig({
       },
     },
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
-    },
-  },
-  resolve: {
-    alias: {
-      '@': '/src',
-    },
-  },
 })
