@@ -41,6 +41,11 @@ function Navbar({ accessToken, handleLogout, userName }) {
           Salesforce Manager
         </Link>
       </div>
+      <div>
+      <Link to="/lol">
+        <h1>hello</h1>
+      </Link>
+    </div>
       {accessToken ? (
         <div className="flex items-center gap-6">
           <span className="text-xl font-medium text-white font-bold">Welcome, {userName}</span>
