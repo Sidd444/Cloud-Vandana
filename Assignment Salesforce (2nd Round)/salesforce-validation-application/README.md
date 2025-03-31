@@ -1,12 +1,27 @@
-# React + Vite
+# Validation Rules Toggle App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based application to toggle Salesforce validation rules, built with Vite, Tailwind CSS, and Axios. Supports both local (`http://localhost:5173`) and deployed environments.
 
-Currently, two official plugins are available:
+## 🚀 Features
+- Fetch and display validation rules
+- Enable/disable validation rules via Salesforce Tooling API
+- Responsive UI with Tailwind CSS
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Tech Stack
+- **Frontend**: Vite + React + Tailwind CSS
+- **Backend**: Salesforce Tooling API
+- **Deployment**: Vercel
 
-## Expanding the ESLint configuration
+# 🌐 Deployment
+The app is deployed on **Vercel**. Access it here: [Live Demo](https://cloud-vandana-salesforc-git-ed93e6-siddhartha-bharalis-projects.vercel.app/#)
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📹 Demo
+- **Local Demo**: [Watch Here](#)
+- **Deployed Demo**: [Watch Here](#)
+
+## ⚙️ Configuration
+- Set up **Remote Site Settings** & **CORS** in Salesforce for both local (`5173`) and deployed URLs.
+- Use a valid Salesforce **Access Token**.
+
+## 📜 License
+MIT License © 2024 Siddhartha Bharali
