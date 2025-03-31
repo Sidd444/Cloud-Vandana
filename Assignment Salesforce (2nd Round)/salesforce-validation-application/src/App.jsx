@@ -20,9 +20,7 @@ function OAuthCallback() {
       localStorage.setItem("access_token", token);
       localStorage.setItem("instance_url", instanceUrl);
       toast.success("Login successful!");
-      
       navigate("/", { replace: true });
-      window.location.replace("/");
     } else {
       toast.error("Login failed. Please try again.");
       navigate("/error", { replace: true });
@@ -31,7 +29,6 @@ function OAuthCallback() {
 
   return <div>Processing OAuth...</div>;
 }
-
 
 function Navbar({ accessToken, handleLogout, userName }) {
   return (
