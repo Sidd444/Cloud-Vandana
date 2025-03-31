@@ -12,8 +12,7 @@ A React-based application to toggle Salesforce validation rules, built with Vite
 - **Backend**: Salesforce Tooling API
 - **Deployment**: Vercel
 
-# 🌐 Deployment
-The app is deployed on **Vercel**. Access it here: [Live Demo](https://cloud-vandana-salesforc-git-ed93e6-siddhartha-bharalis-projects.vercel.app/#)
+## 🌐 Deployment [Live Demo](https://cloud-vandana-salesforc-git-ed93e6-siddhartha-bharalis-projects.vercel.app/#)
 
 ## 📹 Demo
 - **Local Demo**: [Watch Here](#)
@@ -23,5 +22,3 @@ The app is deployed on **Vercel**. Access it here: [Live Demo](https://cloud-van
 - Set up **Remote Site Settings** & **CORS** in Salesforce for both local (`5173`) and deployed URLs.
 - Use a valid Salesforce **Access Token**.
 
-## 📜 License
-MIT License © 2024 Siddhartha Bharali
