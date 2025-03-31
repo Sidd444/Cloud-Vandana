@@ -11,7 +11,7 @@ const instanceUrl = localStorage.getItem("instance_url");
 
 export const getSalesforceObjects = async (accessToken) => {
   const response = await axios.get(
-    `/services/data/v59.0/sobjects/`,
+    `/#/services/data/v59.0/sobjects/`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
   return response.data.sobjects;
