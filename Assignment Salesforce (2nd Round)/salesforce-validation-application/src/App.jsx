@@ -21,7 +21,7 @@ function OAuthCallback() {
       localStorage.setItem("instance_url", instanceUrl);
       toast.success("Login successful!");
       navigate("/");
-      window.location.reload();
+      //window.location.reload();
     } else {
       toast.error("Login failed. Please try again.");
       navigate("/error");
