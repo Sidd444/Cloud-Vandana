@@ -1,7 +1,8 @@
 import axios from "axios";
+import { BASE_URL } from "../config/baseUrl";
 
 const CLIENT_ID = "3MVG9rZjd7MXFdLi8jPo63qmsl2BGyzujtREQfPLvVBeDxoXrvj3QZFzPWHTC6Jbr2dLAIJxtuY1cB_h_k5Xo";
-const REDIRECT_URI = "http://localhost:5173/oauth/callback";
+const REDIRECT_URI = `${BASE_URL}/oauth/callback`;
 const AUTH_URL = `https://login.salesforce.com/services/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
 
 export const loginUrl = AUTH_URL;
@@ -23,8 +24,6 @@ export const getValidationRules = async (accessToken, objectName) => {
   );
   return response.data.records;
 };
-
-
 
 export const toggleValidationRule = async (accessToken, ruleId, isActive, validationName) => {
   try {
@@ -60,8 +59,6 @@ export const toggleValidationRule = async (accessToken, ruleId, isActive, valida
     console.log("Error toggling validation rule:", error.message);
   }
 };
-
-
 
 export const getUserInfo = async (accessToken) => {
   const response = await axios.get(
