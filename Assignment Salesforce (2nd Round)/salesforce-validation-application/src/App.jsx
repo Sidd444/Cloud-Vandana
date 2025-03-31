@@ -41,11 +41,12 @@ function Navbar({ accessToken, handleLogout, userName }) {
           Salesforce Manager
         </Link>
       </div>
-      <div>
-      <Link to="/lol">
-        <h1>hello</h1>
+      <Link
+        to="/test"
+        className="text-xl px-4 py-2 bg-yellow-500 hover:bg-yellow-600 rounded-lg text-white font-semibold transition duration-300"
+      >
+        Test Link
       </Link>
-    </div>
       {accessToken ? (
         <div className="flex items-center gap-6">
           <span className="text-xl font-medium text-white font-bold">Welcome, {userName}</span>
@@ -123,6 +124,7 @@ function App() {
                   <h2 className="text-2xl font-bold text-center">Please select an object first.</h2>
                 )
               } />
+              <Route path="/test" element={<h2 className="text-2xl font-bold text-center">This is a test page.</h2>} />
               <Route path="*" element={<h2 className="text-2xl font-bold text-center">404 - Page Not Found</h2>} />
             </Routes>
           </div>
