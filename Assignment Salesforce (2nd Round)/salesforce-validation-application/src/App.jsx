@@ -4,7 +4,7 @@ import { Toaster, toast } from "react-hot-toast";
 import LoginButton from "./components/LoginButton";
 import ObjectList from "./components/ObjectList";
 import ValidationRulesList from "./components/ValidationRulesList";
-import { getUserInfo, getAuthUrl } from "./services/salesforceApi";
+import { getUserInfo } from "./services/salesforceApi";
 
 function OAuthCallback() {
   const navigate = useNavigate();
@@ -72,7 +72,6 @@ function App() {
   const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token") || null);
   const [selectedObject, setSelectedObject] = useState(null);
   const [userName, setUserName] = useState("");
-  const [environment, setEnvironment] = useState("production");
 
   useEffect(() => {
     if (accessToken) {
@@ -91,10 +90,6 @@ function App() {
     toast.success("Logged out successfully!");
   };
 
-  const handleEnvironmentChange = (e) => {
-    setEnvironment(e.target.value);
-  };
-
   return (
     <Router>
       <div className="min-h-screen w-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white text-xl">
@@ -102,23 +97,6 @@ function App() {
         <Navbar accessToken={accessToken} handleLogout={handleLogout} userName={userName} />
         <div className="flex flex-col items-center justify-center py-10 px-6">
           <div className="w-full max-w-4xl bg-gray-800 bg-opacity-90 rounded-lg shadow-lg p-8">
-            {/* Environment Selector */}
-            <select
-              value={environment}
-              onChange={handleEnvironmentChange}
-              className="p-2 border rounded"
-            >
-              <option value="production">Production</option>
-              <option value="sandbox">Sandbox</option>
-            </select>
-
-            {/* Login Button */}
-            <a
-              href={getAuthUrl(environment)}
-              className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Login with Salesforce
-            </a>
             <Routes>
               <Route
                 path="/"
