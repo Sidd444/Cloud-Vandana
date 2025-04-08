@@ -20,11 +20,16 @@ export const loginUrl = getAuthUrl(); // Default to production
 const instanceUrl = localStorage.getItem("instance_url");
 
 export const getSalesforceObjects = async (accessToken) => {
-  const response = await axios.get(
-    `${instanceUrl}/services/data/v59.0/sobjects/`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-  return response.data.sobjects;
+  try {
+    const response = await axios.get(
+      `${instanceUrl}/services/data/v59.0/sobjects/`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    return response.data.sobjects;
+  } catch (error) {
+    console.error("Error fetching Salesforce objects:", error.response?.data || error.message);
+    throw error;
+  }
 };
 
 export const getValidationRules = async (accessToken, objectName) => {
@@ -71,9 +76,14 @@ export const toggleValidationRule = async (accessToken, ruleId, isActive, valida
 };
 
 export const getUserInfo = async (accessToken) => {
-  const response = await axios.get(
-    `${instanceUrl}/services/oauth2/userinfo`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-  return response.data;
+  try {
+    const response = await axios.get(
+      `${instanceUrl}/services/oauth2/userinfo`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user info:", error.response?.data || error.message);
+    throw error;
+  }
 };
