@@ -17,7 +17,7 @@ export const getAuthUrl = (environment = "production") => {
 // Update login URL dynamically
 export const loginUrl = getAuthUrl(); // Default to production
 
-const instanceUrl = localStorage.getItem("instance_url");
+const instanceUrl = "http://localhost:5000"; // Use the proxy server
 
 export const getSalesforceObjects = async (accessToken) => {
   try {

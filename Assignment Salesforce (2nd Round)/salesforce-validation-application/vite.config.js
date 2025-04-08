@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/services': {
-        target: 'https://login.salesforce.com', // Update to match the environment (e.g., sandbox or production)
+        target: 'https://login.salesforce.com', // Default to production
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/services/, '/services'),
