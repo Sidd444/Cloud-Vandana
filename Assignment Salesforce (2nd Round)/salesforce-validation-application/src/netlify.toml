@@ -1,0 +1,3 @@
+# filepath: c:\Users\blazo\Documents\projects\Cloud Vandana\netlify.toml
+[functions]
+directory = "netlify/functions"

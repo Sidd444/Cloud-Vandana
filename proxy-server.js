@@ -1,24 +1,19 @@
-const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-const app = express();
-
-// Proxy configuration
-app.use(
-  '/services',
-  createProxyMiddleware({
-    target: 'https://login.salesforce.com', // Default to production
+exports.handler = async (event, context) => {
+  const proxy = createProxyMiddleware({
+    target: 'https://login.salesforce.com', 
     changeOrigin: true,
     secure: false,
-    onProxyReq: (proxyReq, req, res) => {
-      // Add custom headers if needed
-      proxyReq.setHeader('Access-Control-Allow-Origin', '*');
-    },
-  })
-);
+  });
 
-// Start the server
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`Proxy server running on http://localhost:${PORT}`);
-});
+  return new Promise((resolve, reject) => {
+    proxy(event, context, (err) => {
+      if (err) reject(err);
+      resolve({
+        statusCode: 200,
+        body: 'Proxy request successful',
+      });
+    });
+  });
+};
