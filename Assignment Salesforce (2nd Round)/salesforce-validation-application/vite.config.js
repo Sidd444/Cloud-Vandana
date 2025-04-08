@@ -6,9 +6,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/services': {
-        target: 'https://orgfarm-e6ad7059a5-dev-ed.develop.my.salesforce.com',
+        target: 'https://login.salesforce.com', // Default to production
         changeOrigin: true,
         secure: false,
+        rewrite: (path) => path.replace(/^\/services/, '/services'),
       },
     },
   },

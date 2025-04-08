@@ -72,6 +72,11 @@ function App() {
   const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token") || null);
   const [selectedObject, setSelectedObject] = useState(null);
   const [userName, setUserName] = useState("");
+  const [environment, setEnvironment] = useState("production"); // Add environment state
+
+  const handleEnvironmentChange = (e) => {
+    setEnvironment(e.target.value);
+  };
 
   useEffect(() => {
     if (accessToken) {
@@ -97,6 +102,21 @@ function App() {
         <Navbar accessToken={accessToken} handleLogout={handleLogout} userName={userName} />
         <div className="flex flex-col items-center justify-center py-10 px-6">
           <div className="w-full max-w-4xl bg-gray-800 bg-opacity-90 rounded-lg shadow-lg p-8">
+            {/* Add environment selector */}
+            <div className="mb-4">
+              <label htmlFor="environment" className="block text-lg font-bold mb-2">
+                Select Salesforce Environment:
+              </label>
+              <select
+                id="environment"
+                value={environment}
+                onChange={handleEnvironmentChange}
+                className="p-2 border rounded"
+              >
+                <option value="production">Production</option>
+                <option value="sandbox">Sandbox</option>
+              </select>
+            </div>
             <Routes>
               <Route
                 path="/"
