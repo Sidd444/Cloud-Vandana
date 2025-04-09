@@ -17,7 +17,7 @@ export const getAuthUrl = (environment = "production") => {
 // Update login URL dynamically
 export const loginUrl = getAuthUrl(); // Default to production
 
-const instanceUrl = "http://localhost:5000"; // Use the proxy server
+const instanceUrl = "https://proxy-salesforce.netlify.app/"; // Use the proxy server
 
 export const getSalesforceObjects = async (accessToken) => {
   try {
