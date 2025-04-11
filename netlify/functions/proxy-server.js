@@ -2,10 +2,12 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 exports.handler = async (event, context) => {
   const proxy = createProxyMiddleware({
-    target: 'https://login.salesforce.com', // Default Salesforce API endpoint
+    target: 'https://login.salesforce.com', // Salesforce API endpoint
     changeOrigin: true,
     secure: false,
-    pathRewrite: (path) => path.replace('/.netlify/functions/proxy-server', ''), // Remove the proxy-server prefix
+    pathRewrite: {
+      '^/api': '', // Remove the `/api` prefix before forwarding to Salesforce
+    },
     onProxyRes: (proxyRes) => {
       // Add CORS headers to the response
       proxyRes.headers['Access-Control-Allow-Origin'] = '*';
@@ -16,7 +18,7 @@ exports.handler = async (event, context) => {
       res.writeHead(500, {
         'Content-Type': 'text/plain',
       });
-      res.end('Something went wrong. Please try again later.');
+      res.end('Proxy error: Unable to process the request.');
     },
   });
 
