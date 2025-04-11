@@ -1,6 +1,19 @@
 const https = require('https');
 
 exports.handler = async function (event) {
+  // Handle CORS preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      },
+      body: '',
+    };
+  }
+
   const path = event.path.replace('/.netlify/functions/proxy-server', '');
   const url = `https://login.salesforce.com${path}`;
 
@@ -22,7 +35,7 @@ exports.handler = async function (event) {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            'Content-Type': res.headers['content-type'] || 'application/json'
+            'Content-Type': res.headers['content-type'] || 'application/json',
           },
         });
       });
@@ -31,7 +44,12 @@ exports.handler = async function (event) {
     req.on('error', (error) => {
       reject({
         statusCode: 500,
-        body: JSON.stringify({ error: error.message })
+        body: JSON.stringify({ error: error.message }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        },
       });
     });
 
