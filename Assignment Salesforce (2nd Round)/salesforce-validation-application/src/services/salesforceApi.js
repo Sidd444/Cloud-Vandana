@@ -17,7 +17,7 @@ export const getAuthUrl = (environment = "production") => {
 
 export const loginUrl = getAuthUrl(); 
 
-const instanceUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy"; 
+const instanceUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-server"; 
 
 export const getSalesforceObjects = async (accessToken) => {
   try {
