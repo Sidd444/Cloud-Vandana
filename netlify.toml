@@ -1,8 +1,12 @@
-# filepath: netlify.toml
-[functions]
-directory = "../netlify/functions/proxy-server"
-
 [build]
 base = "Assignment-Salesforce/salesforce-validation-application"
 publish = "dist"
 command = "npm run build"
+
+[functions]
+directory = "netlify/functions"
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/proxy-server"
+status = 200
