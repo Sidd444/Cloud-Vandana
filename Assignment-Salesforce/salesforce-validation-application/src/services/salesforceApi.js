@@ -19,25 +19,25 @@ export const loginUrl = getAuthUrl();
 
 const instanceUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-server"; 
 
-const proxyUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-server";
+const salesforceInstance = "https://ap16.salesforce.com"; 
 
-export const getSalesforceObjects = async (accessToken, instanceUrl) => {
+export const getSalesforceObjects = async (accessToken) => {
   try {
-    const response = await fetch(proxyUrl, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "x-target-url": `${instanceUrl}/services/data/v59.0/sobjects/`,
-      },
-    });
-
-    const data = await response.json();
-    return data.sobjects;
+    const response = await axios.get(
+      instanceUrl, 
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "x-target-url": `${salesforceInstance}/services/data/v59.0/sobjects/`,
+        },
+      }
+    );
+    return response.data.sobjects;
   } catch (error) {
-    console.error("Error fetching Salesforce objects:", error);
+    console.error("Error fetching Salesforce objects:", error.response?.data || error.message);
     throw error;
   }
 };
-
 
 
 export const getValidationRules = async (accessToken, objectName) => {
