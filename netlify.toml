@@ -1,6 +1,6 @@
 # filepath: netlify.toml
 [functions]
-directory = "../netlify/functions"
+directory = "/.netlify/functions/proxy-server"
 
 [build]
 base = "Assignment Salesforce (2nd Round)/salesforce-validation-application"
