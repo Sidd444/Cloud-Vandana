@@ -1,6 +1,18 @@
 const https = require("https");
 
 exports.handler = async (event) => {
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
+      body: "",
+    };
+  }
+
   const targetBase = "https://login.salesforce.com";
   const path = event.rawUrl.split("/.netlify/functions/proxy-server")[1];
   const url = targetBase + path;
