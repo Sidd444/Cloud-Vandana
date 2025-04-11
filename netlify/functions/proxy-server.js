@@ -5,6 +5,11 @@ exports.handler = async (event, context) => {
     target: 'https://login.salesforce.com', 
     changeOrigin: true,
     secure: false,
+    onProxyRes: (proxyRes) => {
+      proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+      proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
+      proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization';
+    },
   });
 
   return new Promise((resolve, reject) => {
