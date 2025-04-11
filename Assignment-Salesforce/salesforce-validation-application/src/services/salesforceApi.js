@@ -26,7 +26,7 @@ const getInstanceUrl = () => {
 
 export const getSalesforceObjects = async (accessToken) => {
   try {
-    const instanceUrl = getInstanceUrl(); // Ensure instance_url is retrieved correctly
+    const instanceUrl = getInstanceUrl();
     const response = await axios.get(
       `${instanceUrl}/services/data/v59.0/sobjects/`,
       { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -40,7 +40,7 @@ export const getSalesforceObjects = async (accessToken) => {
 
 export const getValidationRules = async (accessToken, objectName) => {
   try {
-    const instanceUrl = getInstanceUrl(); // Ensure instance_url is retrieved correctly
+    const instanceUrl = getInstanceUrl();
     const response = await axios.get(
       `${instanceUrl}/services/data/v59.0/tooling/query/?q=SELECT+Id,Active,ValidationName+FROM+ValidationRule+WHERE+EntityDefinition.DeveloperName='${objectName}'`,
       { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -54,7 +54,7 @@ export const getValidationRules = async (accessToken, objectName) => {
 
 export const toggleValidationRule = async (accessToken, ruleId, isActive, validationName) => {
   try {
-    const instanceUrl = getInstanceUrl(); // Ensure instance_url is retrieved correctly
+    const instanceUrl = getInstanceUrl();
     const response = await axios.get(
       `${instanceUrl}/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
       {
