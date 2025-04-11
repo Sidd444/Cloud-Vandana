@@ -23,18 +23,17 @@ const proxyUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-
 
 export const getSalesforceObjects = async (accessToken, instanceUrl) => {
   try {
-    const response = await axios.get(
-      proxyUrl, 
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "x-target-url": `${instanceUrl}/services/data/v59.0/sobjects/`, 
-        },
-      }
-    );
-    return response.data.sobjects;
+    const response = await fetch(proxyUrl, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "x-target-url": `${instanceUrl}/services/data/v59.0/sobjects/`,
+      },
+    });
+
+    const data = await response.json();
+    return data.sobjects;
   } catch (error) {
-    console.error("Error fetching Salesforce objects:", error.response?.data || error.message);
+    console.error("Error fetching Salesforce objects:", error);
     throw error;
   }
 };
