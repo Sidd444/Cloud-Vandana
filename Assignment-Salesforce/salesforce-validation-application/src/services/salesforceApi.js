@@ -22,7 +22,7 @@ const instanceUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/pro
 export const getSalesforceObjects = async (accessToken) => {
   try {
     const response = await axios.get(
-      `${instanceUrl}/services/data/v59.0/sobjects/`,
+      `${BASE_URL}/services/data/v59.0/sobjects/`,
       { headers: { Authorization: `Bearer ${accessToken}` } }
     );
     return response.data.sobjects;
