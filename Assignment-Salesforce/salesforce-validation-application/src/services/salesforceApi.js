@@ -14,7 +14,7 @@ export const getAuthUrl = (environment = "production") => {
   return `${baseUrl}/services/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
 };
 
-
+         
 export const loginUrl = getAuthUrl(); 
 
 const instanceUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-server"; 
