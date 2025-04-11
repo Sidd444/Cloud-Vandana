@@ -24,14 +24,11 @@ const salesforceInstance = "https://ap16.salesforce.com";
 export const getSalesforceObjects = async (accessToken) => {
   try {
     const response = await axios.get(
-      instanceUrl,
+      instanceUrl, 
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "x-target-url": salesforceInstance,
-        },
-        params: {
-          path: "/services/data/v59.0/sobjects/",
+          "x-target-url": `${salesforceInstance}/services/data/v59.0/sobjects/`,
         },
       }
     );
