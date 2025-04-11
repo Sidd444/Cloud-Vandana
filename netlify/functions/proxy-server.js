@@ -1,44 +1,32 @@
-const https = require('https');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-exports.handler = async function (event) {
-  const path = event.path.replace('/.netlify/functions/proxy-server', '');
-  const url = `https://login.salesforce.com${path}`;
+exports.handler = async (event, context) => {
+  const proxy = createProxyMiddleware({
+    target: 'https://login.salesforce.com', // Default Salesforce API endpoint
+    changeOrigin: true,
+    secure: false,
+    pathRewrite: (path) => path.replace('/.netlify/functions/proxy-server', ''), // Remove the proxy-server prefix
+    onProxyRes: (proxyRes) => {
+      // Add CORS headers to the response
+      proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+      proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
+      proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization';
+    },
+    onError: (err, req, res) => {
+      res.writeHead(500, {
+        'Content-Type': 'text/plain',
+      });
+      res.end('Something went wrong. Please try again later.');
+    },
+  });
 
   return new Promise((resolve, reject) => {
-    const req = https.request(url, {
-      method: event.httpMethod,
-      headers: {
-        ...event.headers,
-        host: 'login.salesforce.com',
-      },
-    }, (res) => {
-      let body = '';
-      res.on('data', (chunk) => body += chunk);
-      res.on('end', () => {
-        resolve({
-          statusCode: res.statusCode,
-          body: body,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            'Content-Type': res.headers['content-type'] || 'application/json'
-          },
-        });
+    proxy(event, context, (err) => {
+      if (err) reject(err);
+      resolve({
+        statusCode: 200,
+        body: 'Proxy request successful',
       });
     });
-
-    req.on('error', (error) => {
-      reject({
-        statusCode: 500,
-        body: JSON.stringify({ error: error.message })
-      });
-    });
-
-    if (event.body) {
-      req.write(event.body);
-    }
-
-    req.end();
   });
 };

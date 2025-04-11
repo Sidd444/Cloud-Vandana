@@ -17,7 +17,7 @@ export const getAuthUrl = (environment = "production") => {
 
 export const loginUrl = getAuthUrl(); 
 
-const instanceUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-server"; 
+const instanceUrl = "https://proxy-salesforce.netlify.app/api"; // Updated to match the Netlify redirect configuration
 
 export const getSalesforceObjects = async (accessToken) => {
   try {
@@ -33,11 +33,16 @@ export const getSalesforceObjects = async (accessToken) => {
 };
 
 export const getValidationRules = async (accessToken, objectName) => {
-  const response = await axios.get(
-    `${instanceUrl}/services/data/v59.0/tooling/query/?q=SELECT+Id,Active,ValidationName+FROM+ValidationRule+WHERE+EntityDefinition.DeveloperName='${objectName}'`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-  return response.data.records;
+  try {
+    const response = await axios.get(
+      `${instanceUrl}/services/data/v59.0/tooling/query/?q=SELECT+Id,Active,ValidationName+FROM+ValidationRule+WHERE+EntityDefinition.DeveloperName='${objectName}'`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    return response.data.records;
+  } catch (error) {
+    console.error("Error fetching validation rules:", error.response?.data || error.message);
+    throw error;
+  }
 };
 
 export const toggleValidationRule = async (accessToken, ruleId, isActive, validationName) => {
