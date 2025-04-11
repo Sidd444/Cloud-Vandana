@@ -7,18 +7,26 @@ exports.handler = async (event) => {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, x-target-url",
       },
       body: "",
     };
   }
 
-  const targetBase = "https://login.salesforce.com";
-  const path = event.rawUrl.split("/.netlify/functions/proxy-server")[1];
-  const url = targetBase + path;
+  const targetUrl = event.headers["x-target-url"];
+  if (!targetUrl) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: "Missing x-target-url header" }),
+    };
+  }
+
+  const path = event.path.replace("/.netlify/functions/proxy-server", "");
+  const url = `${targetUrl}${path}`;
 
   const headers = { ...event.headers };
   delete headers.host;
+  delete headers["x-target-url"];
 
   return new Promise((resolve, reject) => {
     const req = https.request(
@@ -47,7 +55,7 @@ exports.handler = async (event) => {
               ...sanitizedHeaders,
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
-              "Access-Control-Allow-Headers": "Content-Type, Authorization",
+              "Access-Control-Allow-Headers": "Content-Type, Authorization, x-target-url",
             },
             body,
           });
