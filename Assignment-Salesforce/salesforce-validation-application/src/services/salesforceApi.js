@@ -19,11 +19,16 @@ export const loginUrl = getAuthUrl();
 
 const instanceUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-server"; 
 
-export const getSalesforceObjects = async (accessToken) => {
+export const getSalesforceObjects = async (accessToken, instanceUrl) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}/services/data/v59.0/sobjects/`,
-      { headers: { Authorization: `Bearer ${accessToken}` } }
+      `${BASE_URL}/.netlify/functions/proxy-server/services/data/v59.0/sobjects/`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "x-target-url": `${instanceUrl}/services/data/v59.0/sobjects/`,
+        },
+      }
     );
     return response.data.sobjects;
   } catch (error) {
@@ -31,6 +36,7 @@ export const getSalesforceObjects = async (accessToken) => {
     throw error;
   }
 };
+
 
 export const getValidationRules = async (accessToken, objectName) => {
   const response = await axios.get(
