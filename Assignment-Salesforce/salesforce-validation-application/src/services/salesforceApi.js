@@ -24,11 +24,11 @@ const proxyUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-
 export const getSalesforceObjects = async (accessToken, instanceUrl) => {
   try {
     const response = await axios.get(
-      proxyUrl,
+      proxyUrl, 
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "x-target-url": `${instanceUrl}/services/data/v59.0/sobjects/`,
+          "x-target-url": `${instanceUrl}/services/data/v59.0/sobjects/`, 
         },
       }
     );
@@ -38,6 +38,7 @@ export const getSalesforceObjects = async (accessToken, instanceUrl) => {
     throw error;
   }
 };
+
 
 
 export const getValidationRules = async (accessToken, objectName) => {
