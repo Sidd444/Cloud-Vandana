@@ -14,16 +14,24 @@ export const getAuthUrl = (environment = "production") => {
   return `${baseUrl}/services/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
 };
 
+export const loginUrl = getAuthUrl();
 
-export const loginUrl = getAuthUrl(); 
+const proxyUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-server";
 
-const instanceUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-server"; 
+// 🧠 Utility: Get headers with accessToken + instanceUrl
+const getHeaders = (accessToken) => {
+  const instanceUrl = localStorage.getItem("instance_url");
+  return {
+    Authorization: `Bearer ${accessToken}`,
+    "sf-instance-url": instanceUrl,
+  };
+};
 
 export const getSalesforceObjects = async (accessToken) => {
   try {
     const response = await axios.get(
-      `${instanceUrl}/services/data/v59.0/sobjects/`,
-      { headers: { Authorization: `Bearer ${accessToken}` } }
+      `${proxyUrl}/services/data/v59.0/sobjects/`,
+      { headers: getHeaders(accessToken) }
     );
     return response.data.sobjects;
   } catch (error) {
@@ -33,23 +41,28 @@ export const getSalesforceObjects = async (accessToken) => {
 };
 
 export const getValidationRules = async (accessToken, objectName) => {
-  const response = await axios.get(
-    `${instanceUrl}/services/data/v59.0/tooling/query/?q=SELECT+Id,Active,ValidationName+FROM+ValidationRule+WHERE+EntityDefinition.DeveloperName='${objectName}'`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-  return response.data.records;
+  try {
+    const response = await axios.get(
+      `${proxyUrl}/services/data/v59.0/tooling/query/?q=SELECT+Id,Active,ValidationName+FROM+ValidationRule+WHERE+EntityDefinition.DeveloperName='${objectName}'`,
+      { headers: getHeaders(accessToken) }
+    );
+    return response.data.records;
+  } catch (error) {
+    console.error("Error fetching validation rules:", error.response?.data || error.message);
+    throw error;
+  }
 };
 
 export const toggleValidationRule = async (accessToken, ruleId, isActive, validationName) => {
   try {
+    const headers = {
+      ...getHeaders(accessToken),
+      "Content-Type": "application/json",
+    };
+
     const response = await axios.get(
-      `${instanceUrl}/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      }
+      `${proxyUrl}/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
+      { headers }
     );
 
     const metadata = response.data.Metadata || {};
@@ -59,14 +72,9 @@ export const toggleValidationRule = async (accessToken, ruleId, isActive, valida
     };
 
     await axios.patch(
-      `${instanceUrl}/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
+      `${proxyUrl}/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
       { Metadata: updatedMetadata },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      }
+      { headers }
     );
 
     console.log(`Validation rule with Name ${validationName} successfully toggled to ${isActive}`);
@@ -78,8 +86,8 @@ export const toggleValidationRule = async (accessToken, ruleId, isActive, valida
 export const getUserInfo = async (accessToken) => {
   try {
     const response = await axios.get(
-      `${instanceUrl}/services/oauth2/userinfo`,
-      { headers: { Authorization: `Bearer ${accessToken}` } }
+      `${proxyUrl}/services/oauth2/userinfo`,
+      { headers: getHeaders(accessToken) }
     );
     return response.data;
   } catch (error) {

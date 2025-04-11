@@ -13,12 +13,20 @@ exports.handler = async (event) => {
     };
   }
 
-  const targetBase = "https://login.salesforce.com";
-  const path = event.rawUrl.split("/.netlify/functions/proxy-server")[1];
-  const url = targetBase + path;
-
   const headers = { ...event.headers };
+  const instanceUrl = headers["sf-instance-url"];
+  const path = event.rawUrl.split("/.netlify/functions/proxy-server")[1];
+
+  if (!instanceUrl) {
+    return {
+      statusCode: 400,
+      body: "Missing 'sf-instance-url' header",
+    };
+  }
+
+  const url = `${instanceUrl}${path}`;
   delete headers.host;
+  delete headers["sf-instance-url"]; // Don't forward this
 
   return new Promise((resolve, reject) => {
     const req = https.request(
@@ -29,7 +37,6 @@ exports.handler = async (event) => {
       },
       (res) => {
         let body = "";
-
         res.on("data", (chunk) => (body += chunk));
         res.on("end", () => {
           const sanitizedHeaders = {};
@@ -47,7 +54,7 @@ exports.handler = async (event) => {
               ...sanitizedHeaders,
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
-              "Access-Control-Allow-Headers": "Content-Type, Authorization",
+              "Access-Control-Allow-Headers": "Content-Type, Authorization, sf-instance-url",
             },
             body,
           });
