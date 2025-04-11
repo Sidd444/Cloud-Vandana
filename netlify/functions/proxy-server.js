@@ -1,55 +1,39 @@
 const https = require('https');
 
-exports.handler = async function (event) {
-  // Handle CORS preflight requests
-  if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      },
-      body: '',
-    };
-  }
+exports.handler = async (event) => {
+  const targetBase = "https://login.salesforce.com";
+  const path = event.rawUrl.split('/.netlify/functions/proxy-server')[1];
+  const url = targetBase + path;
 
-  const path = event.path.replace('/.netlify/functions/proxy-server', '');
-  const url = `https://login.salesforce.com${path}`;
+  const headers = { ...event.headers };
+  delete headers.host; 
 
   return new Promise((resolve, reject) => {
     const req = https.request(url, {
       method: event.httpMethod,
-      headers: {
-        ...event.headers,
-        host: 'login.salesforce.com',
-      },
+      headers,
     }, (res) => {
       let body = '';
-      res.on('data', (chunk) => body += chunk);
+
+      res.on('data', chunk => body += chunk);
       res.on('end', () => {
         resolve({
           statusCode: res.statusCode,
-          body: body,
           headers: {
+            ...res.headers,
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            'Content-Type': res.headers['content-type'] || 'application/json',
           },
+          body,
         });
       });
     });
 
-    req.on('error', (error) => {
+    req.on('error', err => {
       reject({
         statusCode: 500,
-        body: JSON.stringify({ error: error.message }),
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        },
+        body: JSON.stringify({ message: err.message })
       });
     });
 

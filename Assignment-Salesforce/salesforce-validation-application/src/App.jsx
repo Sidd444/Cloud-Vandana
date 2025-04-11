@@ -14,11 +14,11 @@ function OAuthCallback() {
     const hash = location.hash.substring(1);
     const params = new URLSearchParams(hash);
     const token = params.get("access_token");
-    const instanceUrl = params.get("instance_url"); // Retrieve instance_url from the OAuth response
+    const instanceUrl = params.get("instance_url");
 
     if (token && instanceUrl) {
       localStorage.setItem("access_token", token);
-      localStorage.setItem("instance_url", instanceUrl); // Save instance_url in local storage
+      localStorage.setItem("instance_url", instanceUrl);
       toast.success("Login successful!");
       navigate("/", { replace: true });
       window.location.reload();
