@@ -18,7 +18,7 @@ function OAuthCallback() {
 
     if (token && instanceUrl) {
       localStorage.setItem("access_token", token);
-      localStorage.setItem("instance_url", instanceUrl);
+      localStorage.setItem("instance_url", instanceUrl); // Save instance_url
       toast.success("Login successful!");
       navigate("/", { replace: true });
       window.location.reload();

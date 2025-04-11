@@ -14,13 +14,13 @@ export const getAuthUrl = (environment = "production") => {
   return `${baseUrl}/services/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
 };
 
+export const loginUrl = getAuthUrl();
 
-export const loginUrl = getAuthUrl(); 
-
-const instanceUrl = "https://proxy-salesforce.netlify.app/.netlify/functions/proxy-server"; 
+const getInstanceUrl = () => localStorage.getItem("instance_url");
 
 export const getSalesforceObjects = async (accessToken) => {
   try {
+    const instanceUrl = getInstanceUrl();
     const response = await axios.get(
       `${instanceUrl}/services/data/v59.0/sobjects/`,
       { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -33,15 +33,22 @@ export const getSalesforceObjects = async (accessToken) => {
 };
 
 export const getValidationRules = async (accessToken, objectName) => {
-  const response = await axios.get(
-    `${instanceUrl}/services/data/v59.0/tooling/query/?q=SELECT+Id,Active,ValidationName+FROM+ValidationRule+WHERE+EntityDefinition.DeveloperName='${objectName}'`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-  return response.data.records;
+  try {
+    const instanceUrl = getInstanceUrl();
+    const response = await axios.get(
+      `${instanceUrl}/services/data/v59.0/tooling/query/?q=SELECT+Id,Active,ValidationName+FROM+ValidationRule+WHERE+EntityDefinition.DeveloperName='${objectName}'`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    return response.data.records;
+  } catch (error) {
+    console.error("Error fetching validation rules:", error.response?.data || error.message);
+    throw error;
+  }
 };
 
 export const toggleValidationRule = async (accessToken, ruleId, isActive, validationName) => {
   try {
+    const instanceUrl = getInstanceUrl();
     const response = await axios.get(
       `${instanceUrl}/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
       {
@@ -71,12 +78,14 @@ export const toggleValidationRule = async (accessToken, ruleId, isActive, valida
 
     console.log(`Validation rule with Name ${validationName} successfully toggled to ${isActive}`);
   } catch (error) {
-    console.log("Error toggling validation rule:", error.message);
+    console.error("Error toggling validation rule:", error.message);
+    throw error;
   }
 };
 
 export const getUserInfo = async (accessToken) => {
   try {
+    const instanceUrl = getInstanceUrl();
     const response = await axios.get(
       `${instanceUrl}/services/oauth2/userinfo`,
       { headers: { Authorization: `Bearer ${accessToken}` } }
