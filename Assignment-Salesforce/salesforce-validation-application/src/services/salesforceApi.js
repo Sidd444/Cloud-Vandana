@@ -23,6 +23,7 @@ const salesforceInstance = "https://ap16.salesforce.com";
 
 export const getSalesforceObjects = async (accessToken) => {
   try {
+    console.log("access token ", accessToken);
     const response = await axios.get(
       instanceUrl, 
       {
@@ -35,7 +36,6 @@ export const getSalesforceObjects = async (accessToken) => {
     return response.data.sobjects;
   } catch (error) {
     console.error("Error fetching Salesforce objects:", error.response?.data || error.message);
-    console.log("access token ", accessToken);
     throw error;
   }
 };
