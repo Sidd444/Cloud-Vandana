@@ -35,6 +35,7 @@ export const getSalesforceObjects = async (accessToken) => {
     return response.data.sobjects;
   } catch (error) {
     console.error("Error fetching Salesforce objects:", error.response?.data || error.message);
+    console.log("access token ", accessToken);
     throw error;
   }
 };
