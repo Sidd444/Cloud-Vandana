@@ -15,7 +15,7 @@ const ObjectList = ({ accessToken, onSelectObject }) => {
           );
           setObjects(filteredObjects);
         })
-        .catch(() => toast.error(`Failed to fetch Salesforce objects. And here's the access token: ${accessToken}`));
+        .catch(() => toast.error("Failed to fetch Salesforce objects"));
     }
   }, [accessToken]);
 

@@ -23,18 +23,22 @@ const salesforceInstance = "https://ap16.salesforce.com";
 
 export const getSalesforceObjects = async (accessToken) => {
   try {
+    const instanceUrl = localStorage.getItem("instance_url"); 
+    if (!instanceUrl) {
+      throw new Error("Instance URL is not set. Please log in again.");
+    }
+
     const response = await axios.get(
-      instanceUrl, 
+      `${instanceUrl}/services/data/v59.0/sobjects/`, 
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "x-target-url": `${salesforceInstance}/services/data/v59.0/sobjects/`,
         },
       }
     );
     return response.data.sobjects;
   } catch (error) {
-    console.error(`Error now fetching Salesforce objects`, error.response?.data || error.message);
+    console.error("Error fetching Salesforce objects:", error.response?.data || error.message);
     throw error;
   }
 };
